@@ -7,9 +7,15 @@ if [ -f ${LOOK_FILE} ]; then
   mv ~/.vimrc ~/.oldvimrc
 fi
 
-  echo "copying .vimrc from remote repositoly to ~/"
-  cp ./.vimrc ~/
-  echo "Complete to copy ./.vimrc to ~/.vimrc"
+  echo "put symbolic link .vimrc to ~/ from remote repositoly"
+  ln -s ./.vimrc ~/
+  echo "Complete to put symbolic link ./.vimrc to ~/.vimrc"
+
+  echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
+  ln -s ./.tmux.conf ~/
+  echo "Complete to put symbolic link ./.tmux.conf to ~/.tmux.conf"
+
+
   echo "Installing NeoBundle and ColorScheme"
 
   mkdir -p ~/.vim/bundle
