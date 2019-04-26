@@ -16,8 +16,7 @@ fi
   git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 
   mkdir -p ~/.vim/colors
-  git clone https://github.com/tomasr/molokai ~/.vim/colors
-  cp ~/.vim/colors/molokai/colors/molokai.vim ~/.vim/colors/
+  git clone https://github.com/tomasr/molokai ~/.vim/
 
   echo "Installation Completed, Ready to get to start vim"
   vim
