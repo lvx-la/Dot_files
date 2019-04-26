@@ -13,10 +13,10 @@ if [ -f ${TMUX_LOOK_FILE} ]; then
 fi
 
   echo "put symbolic link .vimrc to ~/ from remote repositoly"
-  ln -s .vimrc ~/
+  ln -s ./.vimrc ~/
 
   echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
-  ln -s .tmux.conf ~/
+  ln -s ./.tmux.conf ~/
 
 
   echo "Installing NeoBundle and ColorScheme"
