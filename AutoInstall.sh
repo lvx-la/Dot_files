@@ -20,4 +20,4 @@ fi
   cp ~/.vim/colors/colors/molokai.vim ~/.vim/colors
 
   echo "Installation Completed, Ready to get to start vim"
-  vim
+  vim ~/.vimrc
