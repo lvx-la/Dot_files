@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [-f ${~/.vimrc} ]; then
   echo "renameing current .vimrc to .oldvimrc"
