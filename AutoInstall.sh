@@ -9,4 +9,15 @@ fi
 
   echo "copying .vimrc from remote repositoly to ~/"
   cp ./.vimrc ~/
-  echo "Finished..."
+  echo "Complete to copy ./.vimrc to ~/.vimrc"
+  echo "Installing NeoBundle and ColorScheme"
+
+  mkdir -p ~/.vim/bundle
+  git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+
+  mkdir -p ~/.vim/colors
+  git clone https://github.com/tomasr/molokai
+  cp ~/.vim/colors/molokai/colors/molokai.vim ~/.vim/colors/
+
+  echo "Installation Completed, Ready to get to start vim"
+  vim
