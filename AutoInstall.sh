@@ -12,11 +12,11 @@ if [ -f ${TMUX_LOOK_FILE} ]; then
   mv ~/.tmux.conf ~/.old_tmux.conf
 fi
 
-  echo "put symbolic link .vimrc to ~/ from remote repositoly"
-  ln -s ./.vimrc ~/
-
-  echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
-  ln -s ./.tmux.conf ~/
+#  echo "put symbolic link .vimrc to ~/ from remote repositoly"
+#  ln -s ./.vimrc ~/
+#
+#  echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
+#  ln -s ./.tmux.conf ~/
 
 
   echo "Installing NeoBundle and ColorScheme"
@@ -29,4 +29,4 @@ fi
   cp ~/.vim/colors/colors/molokai.vim ~/.vim/colors
 
   echo "Installation Completed, Ready to get to start vim"
-  vim ~/.vimrc
+  echo "Put Symbolic link yourself!!!!!!"
