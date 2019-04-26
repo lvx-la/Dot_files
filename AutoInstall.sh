@@ -7,4 +7,4 @@ if [-f ${LOOK_FILE} ]; then
 fi
 
   echo "copying .vimrc from remote repositoly to ~/"
-  cp ./vimrc ~/
+  cp ./.vimrc ~/
