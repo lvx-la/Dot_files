@@ -1,19 +1,22 @@
 #!/bin/sh
 
-LOOK_FILE="~/.vimrc"
+VIM_LOOK_FILE="~/.vimrc"
+TMUX_LOOK_FILE="~/.tmux.conf"
 
-if [ -f ${LOOK_FILE} ]; then
-  echo "renameing current .vimrc to .oldvimrc"
-  mv ~/.vimrc ~/.oldvimrc
+if [ -f ${VIM_LOOK_FILE} ]; then
+  echo "renameing current .vimrc to .old_vimrc"
+  mv ~/.vimrc ~/.old_vimrc
+fi
+if [ -f ${TMUX_LOOK_FILE} ]; then
+  echo "renameing current .tmux.conf to .old_tmux.conf"
+  mv ~/.tmux.conf ~/.old_tmux.conf
 fi
 
   echo "put symbolic link .vimrc to ~/ from remote repositoly"
-  ln -s ./.vimrc ~/
-  echo "Complete to put symbolic link ./.vimrc to ~/.vimrc"
+  ln -s .vimrc ~/
 
   echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
-  ln -s ./.tmux.conf ~/
-  echo "Complete to put symbolic link ./.tmux.conf to ~/.tmux.conf"
+  ln -s .tmux.conf ~/
 
 
   echo "Installing NeoBundle and ColorScheme"
