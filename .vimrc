@@ -12,6 +12,8 @@ set autoread
 set hidden
 " 入力中のコマンドをステータスに表示する
 set showcmd
+" --MODE-- の表示をオフにする
+set noshowmode
 
 "コンパイル
 nnoremap <F5> :w<CR>:make run<CR>
@@ -141,9 +143,8 @@ endif
 "--------------------------------------------------
 " Ocamlの設定
 "--------------------------------------------------
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute 'set rtp+=' . g:opamshare . '/merlin/vim'
-
+"let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+"execute 'set rtp+=' . g:opamshare . '/merlin/vim'
 
 "NeoBundle
 " Note: Skip initialization for vim-tiny or vim-small.
@@ -222,7 +223,6 @@ let g:lightline = {
       \'component_function':{
       \ 'filepath':'FilePath',
       \ 'fugitive':'LightLineFugitive',
-      \ 'winform': 'LightLineWinform',
       \ 'fileformat': 'LightLineFileformat',
       \ 'fileencoding': 'LightLineFileencoding',
       \ 'filetype': 'LightLineFiletype'
@@ -237,6 +237,7 @@ let g:lightline = {
       \ }
       \}
 
+"""\ 'winform': 'LightLineWinform',
 let g:lightline.component = {
     \ 'lineinfo': '%3l[%L]:%-2v'}
 
