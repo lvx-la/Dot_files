@@ -13,9 +13,16 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
       signals=(▁ ▂ ▄ ▆ █)
       signal=""
       rssi_=$(expr 5 - ${rssi} / -20)
-      for ((i=0; i < $rssi_; i++ )); do
-        signal="${signal}${signals[$i]}"
-      done
+
+      case $rssi_ in
+        0)signal="*";;
+        1)signal="●○○○○";;
+        2)signal="●●○○○";;
+        3)signal="●●●○○";;
+        4)signal="●●●●○";;
+        5)signal="●●●●●";;
+      esac
+
       ssid_shortform=$(echo $ssid | head -c 8)
       airport_=" #[underscore]${ssid_shortform}#[default] | ${signal} "
     ;;
