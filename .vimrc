@@ -62,7 +62,7 @@ if has('mouse')
 " Tab系
 " 不可視文字を可視化(タブが「▸-」と表示される)
 set list
-set listchars=tab:▸-,trail:-
+set listchars=tab:▸-,trail:-,eol:↵
 " Tab文字を半角スペースにする
 set expandtab
 " 行頭以外のTab文字の表示幅（スペースいくつ分）
@@ -93,8 +93,12 @@ set cursorline
 " 現在の行を強調表示（縦）
 set cursorcolumn
 
+"#########################################
+"カラースキームが気にくわなかったから色変更
+"#########################################
+autocmd ColorScheme * highlight NonText ctermfg=0
+autocmd ColorScheme * highlight SpecialKey ctermfg=236
 autocmd ColorScheme * highlight Comment ctermfg=244 guifg=#888888
-
 autocmd ColorScheme * highlight cursorline cterm=underline ctermfg=NONE guifg=#FF0000
 autocmd ColorScheme * highlight cursorcolumn ctermbg=238 guifg=#888888
 
@@ -143,8 +147,8 @@ endif
 "--------------------------------------------------
 " Ocamlの設定
 "--------------------------------------------------
-"let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-"execute 'set rtp+=' . g:opamshare . '/merlin/vim'
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute 'set rtp+=' . g:opamshare . '/merlin/vim'
 
 "NeoBundle
 " Note: Skip initialization for vim-tiny or vim-small.
@@ -299,19 +303,20 @@ NeoBundle 'scrooloose/syntastic'
   let g:syntastic_check_on_wq = 0
   let g:syntastic_enable_signs=1
 
+
   let g:syntastic_ocaml_checkers = ['merlin'] 
+  let g:syntastic_python_checkers = ['pylint']
+  let g:syntastic_c_checkers = ['clang']
 
   let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [
     \ 'ruby','javascript','coffee', 'scss', 'html', 'haml', 'slim', 'sh',
       \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
   "python
-  "let g:syntastic_python_checkers = ['pylint']
-  "let g:syntastic_c_checkers = ['clang']
 
   let g:syntastic_error_symbol='❌'
   let g:syntastic_style_error_symbol = '❌'
-  let g:syntastic_warning_symbol = '⚠️'
-  let g:syntastic_style_warning_symbol = '⚠️'
+  let g:syntastic_warning_symbol = 'W'
+  let g:syntastic_style_warning_symbol = 'W'
 
 
  " let g:syntastic_mode_map = {'mode': 'passive'}

@@ -19,7 +19,10 @@ zstyle ':completion:*:default' menu select=1
 #--------------------------------------------------------
 #Aliases
 #--------------------------------------------------------
-alias cat='lolcat'
+alias neco='cat'
+alias cat='cat -n|lolcat'
+alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
+alias l~='ls -a ~/'
 
 #--------------------------------------------------------
 #色
@@ -88,7 +91,19 @@ RPROMPT='`rprompt-git-current-branch`'
 
 
 #--------------------------------------------------------
+#PATH
+#--------------------------------------------------------
+# opam configuration
+test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# added by Miniconda3 4.3.21 installer
+export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"
+
+
+#--------------------------------------------------------
 #おまじない
 #--------------------------------------------------------
 #Must write on end of .zshrc
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
