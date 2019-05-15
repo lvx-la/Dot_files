@@ -12,15 +12,12 @@ else
   exit 1
 fi
 
-if [ $OS='Mac' ]; then
- if [!(type "brew" > /dev/null 2>&1)]; then
+#Auto Install Homebrew (Garbage Code)
+if [ type "brew" > /dev/null 2>&1 ]; then
+elif [ $OS='Mac' ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
- else
-  brew install tree
- fi
-else
-  echo "big echo"
 fi
+
 #Ctrl-Dで終了させない
 setopt ignoreeof
 
