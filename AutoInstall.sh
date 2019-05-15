@@ -1,10 +1,12 @@
 #!/bin/sh
 
+
 VIM_LOOK_FILE="~/.vimrc"
 TMUX_LOOK_FILE="~/.tmux.conf"
 
 if [ -f ${VIM_LOOK_FILE} ]; then
-  echo "renameing current .vimrc to .old_vimrc"
+  #echo "renameing current .vimrc to .old_vimrc"
+  echo -e '\e[33m renameing current .vimrc to .old_vimrc \e[m'
   mv ~/.vimrc ~/.old_vimrc
 fi
 if [ -f ${TMUX_LOOK_FILE} ]; then
@@ -19,7 +21,9 @@ fi
 #  ln -s ./.tmux.conf ~/
 
 
-  echo "Installing NeoBundle and ColorScheme"
+  #echo -e '\e[33m \e[m'
+  echo -e '\e[33m Installing NeoBundle and ColorScheme \e[m'
+  #echo "Installing NeoBundle and ColorScheme"
 
   mkdir -p ~/.vim/bundle
   git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim

@@ -11,5 +11,7 @@ if battery_info=$(/usr/bin/pmset -g ps | awk '{ if (NR == 2) print $3 " " $4 }' 
   else
     battery="#[bg=colour27,fg=white] $battery_quantity% #[default]"
   fi
-  echo $battery
+else
+  battery="#[bg=colour27,fg=white] No battery"
 fi
+  echo $battery

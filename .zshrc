@@ -1,6 +1,26 @@
 # USER INPUT
 fpath=(~/.zsh/completion $fpath)
 
+if [ "$(uname)" == 'Darwin' ]; then
+  OS='Mac'
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  OS='Linux'
+elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW32_NT' ]; then                                                                                           
+  OS='Cygwin'
+else
+  echo "Your platform ($(uname -a)) is not supported."
+  exit 1
+fi
+
+if [ $OS='Mac' ]; then
+ if [!(type "brew" > /dev/null 2>&1)]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ else
+  brew install tree
+ fi
+else
+  echo "big echo"
+fi
 #Ctrl-Dで終了させない
 setopt ignoreeof
 
@@ -19,10 +39,32 @@ zstyle ':completion:*:default' menu select=1
 #--------------------------------------------------------
 #Aliases
 #--------------------------------------------------------
-alias neco='cat'
-alias cat='cat -n|lolcat'
-alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
-alias l~='ls -a ~/'
+
+case ${USER} in
+  yuki-macbookpro)
+    alias neco='lolcat'
+    alias cat='cat -n|lolcat'
+    alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
+    alias l~='ls -a ~/'
+    alias tree='tree -NC'
+    ;;
+  Knight-of-Skyrim)
+    alias t='tree';;
+esac
+
+case ${USER} in
+  yuki-macbookpro)
+    function cdts(){
+      cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Spring
+    };;
+  Knight-of-Skyrim)
+    echo "KINTAMA"
+    function cdts(){
+      cd /Users/Knight-of-Skyrim/Documents/東洋大学/3年生/Spring
+    };;
+esac
+
+echo ${USER}
 
 #--------------------------------------------------------
 #色
@@ -31,6 +73,7 @@ autoload -Uz colors
 
 alias ls='ls -FG'
 export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS=gxfxcxdxbxegedabagacad
 
 colors
 
@@ -41,9 +84,6 @@ colors
 #プロンプトに表示する情報
 PROMPT='%F{green}%n%f %~ > '
 
-function cdts(){
-  cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Spring
-}
 
 #--------------------------------------------------------
 #gitのブランチ名をプロンプトの右側に表示する
@@ -93,11 +133,19 @@ RPROMPT='`rprompt-git-current-branch`'
 #--------------------------------------------------------
 #PATH
 #--------------------------------------------------------
-# opam configuration
-test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-# added by Miniconda3 4.3.21 installer
-export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"
+case ${USER} in
+  yuki-macbookpro*)
+    # added by Miniconda3 4.3.21 installer
+    export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"
+    # opam configuration
+    test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+    ;;
+  Knight-of-Skyrim*)
+    export PATH='/usr/local/bin'
+    ;;
+esac
+
 
 
 #--------------------------------------------------------
