@@ -1,4 +1,7 @@
-" setting
+"--------------------------------------------------
+" 基礎系
+"--------------------------------------------------
+"{{{
 "文字コードをUFT-8に設定
 set fenc=utf-8
 scriptencoding utf-8
@@ -14,15 +17,9 @@ set hidden
 set showcmd
 " --MODE-- の表示をオフにする
 set noshowmode
+"クリップボードを使う
+set clipboard =unnamed,autoselect
 
-"コンパイル
-nnoremap <F5> :w<CR>:make run<CR>
-inoremap <F5> <Esc>:w<CR>:make run<CR>
-nnoremap <F6> :w<CR>:! ./run<CR>
-inoremap <F6> <Esc>:w<CR>:! ./run<CR>
-
-inoremap ^H ^[ha
-inoremap ^L ^[la
 
 " 見た目系
 " 行番号を表示
@@ -45,18 +42,6 @@ set wildmode=list:longest
 " 折り返し時に表示行単位での移動できるようにする
 nnoremap j gj
 nnoremap k gk
-
-"マウス系
-if has('mouse')
-    set mouse=a
-    if has('mouse_sgr')
-        set ttymouse=sgr
-    elseif v:version > 703 || v:version is 703 && has('patch632')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
-    endif
-  endif
 
 
 " Tab系
@@ -85,7 +70,39 @@ set hlsearch
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 
-"カラースキーム（自作）
+"バックスペース効かない問題を直す
+"set nocompatible iMacでNeoBundleをインストールする際、コメントを外した。
+if &compatible
+  set nocompatible
+endif
+set backspace =indent,eol,start 
+
+"}}}
+
+"--------------------------------------------------
+"折りたたみ
+"--------------------------------------------------
+au FileType vim setlocal foldmethod=marker
+au FileType c setlocal foldmethod=indent
+
+
+"--------------------------------------------------
+"コンパイル
+"--------------------------------------------------
+nnoremap <F5> :w<CR>:make %:r<CR>
+inoremap <F5> <Esc>:w<CR>:make %:r<CR>
+nnoremap <F6> :w<CR>:! ./%:r<CR>
+inoremap <F6> <Esc>:w<CR>:! ./%:r<CR>
+
+inoremap ^H ^[ha
+inoremap ^L ^[la
+
+
+"--------------------------------------------------
+"カラースキーム
+"--------------------------------------------------
+
+"{{{
 colorscheme molokai
 
 " 現在の行を強調表示
@@ -104,16 +121,16 @@ autocmd ColorScheme * highlight cursorcolumn ctermbg=238 guifg=#888888
 
 
 syntax enable
-"バックスペース効かない問題を直す
-"set nocompatible iMacでNeoBundleをインストールする際、コメントを外した。
-if &compatible
-  set nocompatible
-endif
-set backspace =indent,eol,start 
+"}}}
 
-"#########################################
+
+
+"--------------------------------------------------
 "キーバインド（自作）
-"#########################################
+"--------------------------------------------------
+
+"{{{
+
 "補完をJとKに逃す
 "inoremap <C-p> <C-k>
 "inoremap <C-n> <C-j>
@@ -126,8 +143,25 @@ inoremap <C-e> <Esc>A
 inoremap <C-a> <Esc>I
 nnoremap <F10> :terminal ++curwin <CR>
 
-"クリップボードを使う
-set clipboard =unnamed,autoselect
+"}}}
+
+
+"--------------------------------------------------
+"雑なスクリプト的な マウスと、ペーストしたときインデントしないやつあるよ
+"--------------------------------------------------
+
+"{{{
+"マウス系
+if has('mouse')
+  set mouse=a
+  if has('mouse_sgr')
+      set ttymouse=sgr
+  elseif v:version > 703 || v:version is 703 && has('patch632')
+      set ttymouse=sgr
+  else
+      set ttymouse=xterm2
+  endif
+endif
 
 
 "ペースとしたときインデントさせないやつ
@@ -143,6 +177,7 @@ if &term =~ "xterm"
 
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
+"}}}
 
 "--------------------------------------------------
 " Ocamlの設定
@@ -150,7 +185,12 @@ endif
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 execute 'set rtp+=' . g:opamshare . '/merlin/vim'
 
+
+"--------------------------------------------------
 "NeoBundle
+"--------------------------------------------------
+"{{{
+
 " Note: Skip initialization for vim-tiny or vim-small.
 if 0 | endif
 
@@ -184,7 +224,7 @@ autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 NeoBundle 'cohama/lexima.vim'
 
 "--------------------------------------------------
-"インデントガイダンス"
+"インデントガイダンス ダサい方
 "--------------------------------------------------
 "NeoBundle 'nathanaelkane/vim-indent-guides'
 "  let g:indent_guides_enable_on_vim_startup = 1
@@ -211,6 +251,8 @@ NeoBundle 'Yggdroot/indentLine'
 "--------------------------------------------------
 "ステータスライン
 "--------------------------------------------------
+"
+"{{{
 NeoBundle 'itchyny/lightline.vim'
       
 let g:syntastic_mode_map = { 'mode': 'passive' }
@@ -293,6 +335,9 @@ augroup AutoSyntastic
   autocmd!
   autocmd BufWritePost *.c,*.cpp call s:syntastic()
 augroup END
+
+"}}}
+
 "--------------------------------------------------
 "文法チェッカー
 "--------------------------------------------------
@@ -306,7 +351,7 @@ NeoBundle 'scrooloose/syntastic'
 
   let g:syntastic_ocaml_checkers = ['merlin'] 
   let g:syntastic_python_checkers = ['pylint']
-  let g:syntastic_c_checkers = ['clang']
+  "let g:syntastic_c_checkers = ['clang']
 
   let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [
     \ 'ruby','javascript','coffee', 'scss', 'html', 'haml', 'slim', 'sh',
@@ -319,15 +364,6 @@ NeoBundle 'scrooloose/syntastic'
   let g:syntastic_style_warning_symbol = 'W'
 
 
- " let g:syntastic_mode_map = {'mode': 'passive'}
- " augroup AutoSyntastic
-   "   autocmd!
-  "    autocmd InsertLeave,TextChanged * call s:syntastic()
- " augroup END
- " function! s:syntastic()
-   "   w
-  "    SyntasticCheck
- " endfunction
   
 "----------------------------------------------------
 "lldb
@@ -335,45 +371,9 @@ NeoBundle 'scrooloose/syntastic'
   "NeoBundle 'gilligan/vim-lldb'
 
 "----------------------------------------------------
-  "NeoComplete
-"---------------------------------------------------
-"  if has('lua')
-"    "NeoBundle 'Shougo/deoplete.nvim'
-"      let g:deoplete#enable_at_startup = 1
-"      let g:deoplete#auto_complete_start_length = 2
-"      let g:deoplete#max_list = 10000
-"      let g:python3_host_prog='/usr/local/bin/python3'
-"
-"      inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-"        \ neosnippet#expandable_or_jumpable() ?
-"        \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
-"
-"    "on_i = 1
-"    " スニペットの補完機能
-"    NeoBundle "Shougo/neosnippet.vim"
-"    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-"    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-"    xmap <C-k> <Plug>(neosnippet_expand_target)
-"    if has('conceal')
-"      set conceallevel=2 concealcursor=niv
-"    endif
-"
-"    "on_i = 1
-"    "on_ft = ['snippet']
-"    "depends = ['neosnippet-snippets']
-"
-"    " スニペット集
-"    NeoBundle 'Shougo/neosnippet-snippets'  
-"
-"    "deopleteに必要な奴ら
-"    NeoBundle 'roxma/nvim-yarp'
-"    NeoBundle 'roxma/vim-hug-neovim-rpc'
-"    "NeoBundle 'Shougo/neco-syntax'
-"  endif
-
-" スニペット集
-
   "ネオコン
+"----------------------------------------------------
+
   NeoBundle 'Shougo/NeoComplete'
     let g:neocomplete#enable_at_startup = 1
     " 大文字が入力されるまで大文字小文字の区別をなくす
@@ -438,10 +438,26 @@ NeoBundleLazy 'vim-css3-syntax',{
 "NeoBundleLazy 'othree/html5.vim',{
 "      \'autoload':{'filetypes':['html']}
 "      \}
-
-
+"
+"--------------------------------------------------
+"color
+"--------------------------------------------------
+"NeoBundleLazy 'jeaye/color_coded', {
+"  \ 'build': {
+"    \   'unix': 'rm -f CMakeCache.txt && cmake . && make && make install',
+"  \ },
+"  \ 'autoload': { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
+"  \ 'build_commands' : ['cmake', 'make']
+"\}
+"
 
 call neobundle#end()
+
+"}}}
+
+
+
+
 " ファイルタイプ別のプラグイン/インデントを有効にする
 filetype plugin indent on
 

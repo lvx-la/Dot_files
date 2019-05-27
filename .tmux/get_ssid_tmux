@@ -10,7 +10,7 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
 
   case "$state" in
     "running" )
-      signals=(▁ ▂ ▄ ▆ █)
+      #signals=(▁ ▂ ▄ ▆ █)
       signal=""
       rssi_=$(expr 5 - ${rssi} / -20)
 
@@ -24,10 +24,10 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
       esac
 
       ssid_shortform=$(echo $ssid | head -c 8)
-      airport_=" #[underscore]${ssid_shortform}#[default] | ${signal} "
+      airport_=" ${signal} #[underscore]${ssid_shortform}#[default] "
     ;;
     "init"    ) airport_="#[fg=yellow] ... " ;;
     *         ) airport_="#[fg=red] ✘  " ;;
   esac  
-  echo "#[bold]|#[default]${airport_}#[bold]|#[default] "
+  echo "|#[default]${airport_}|#[default] "
 fi

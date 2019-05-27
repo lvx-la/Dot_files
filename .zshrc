@@ -1,25 +1,26 @@
 # USER INPUT
 fpath=(~/.zsh/completion $fpath)
 
-if [ "$(uname)" == 'Darwin' ]; then
-  OS='Mac'
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-  OS='Linux'
-elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW32_NT' ]; then                                                                                           
-  OS='Cygwin'
-else
-  echo "Your platform ($(uname -a)) is not supported."
-  exit 1
-fi
-
-#Auto Install Homebrew (Garbage Code)
-if [ type "brew" > /dev/null 2>&1 ]; then
-elif [ $OS='Mac' ]; then
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+#if [ "$(uname)" == 'Darwin' ]; then
+#  OS='Mac'
+#elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+#  OS='Linux'
+#elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW32_NT' ]; then                                                                                           
+#  OS='Cygwin'
+#else
+#  echo "Your platform ($(uname -a)) is not supported."
+#  exit 1
+#fi
+#
+##Auto Install Homebrew (Garbage Code)
+#if [ type "brew" > /dev/null 2>&1 ]; then
+#elif [ $OS='Mac' ]; then
+#  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#fi
 
 #Ctrl-Dで終了させない
 setopt ignoreeof
+setopt nonomatch
 
 
 # The following lines were added by compinstall
@@ -40,7 +41,7 @@ zstyle ':completion:*:default' menu select=1
 case ${USER} in
   yuki-macbookpro)
     alias neco='lolcat'
-    alias cat='cat -n|lolcat'
+    alias cat='lolcat -n'
     alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
     alias l~='ls -a ~/'
     alias tree='tree -NC'
@@ -55,13 +56,12 @@ case ${USER} in
       cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Spring
     };;
   Knight-of-Skyrim)
-    echo "KINTAMA"
     function cdts(){
       cd /Users/Knight-of-Skyrim/Documents/東洋大学/3年生/Spring
     };;
 esac
 
-echo ${USER}
+echo "Wellcome" ${USER}
 
 #--------------------------------------------------------
 #色
@@ -126,9 +126,23 @@ setopt prompt_subst
 # プロンプトの右側(RPROMPT)にメソッドの結果を表示させる
 RPROMPT='`rprompt-git-current-branch`'
 
+#--------------------------------------------------------
+#Path to my bin
+#--------------------------------------------------------
+
+case ${USER} in
+  yuki-macbookpro*)
+    #my bin
+    export PATH="/usr/local/bin/mybin:$PATH"
+    ;;
+  Knight-of-Skyrim*)
+    export PATH="/usr/local/bin:$PATH"
+    ;;
+esac
+
 
 #--------------------------------------------------------
-#PATH
+#path to develop apps
 #--------------------------------------------------------
 
 case ${USER} in
@@ -139,7 +153,7 @@ case ${USER} in
     test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
     ;;
   Knight-of-Skyrim*)
-    export PATH='/usr/local/bin'
+    export PATH="/usr/local/bin:$PATH"
     ;;
 esac
 
