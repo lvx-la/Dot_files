@@ -45,6 +45,7 @@ case ${USER} in
     alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
     alias l~='ls -a ~/'
     alias tree='tree -NC'
+    alias ll='ls -lah'
     ;;
   Knight-of-Skyrim)
     alias t='tree';;
