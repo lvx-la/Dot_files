@@ -84,6 +84,7 @@ set backspace =indent,eol,start
 "--------------------------------------------------
 au FileType vim setlocal foldmethod=marker
 au FileType c setlocal foldmethod=indent
+au FileType python setlocal foldmethod=indent
 
 
 "--------------------------------------------------
@@ -118,6 +119,7 @@ autocmd ColorScheme * highlight SpecialKey ctermfg=236
 autocmd ColorScheme * highlight Comment ctermfg=244 guifg=#888888
 autocmd ColorScheme * highlight cursorline cterm=underline ctermfg=NONE guifg=#FF0000
 autocmd ColorScheme * highlight cursorcolumn ctermbg=238 guifg=#888888
+autocmd ColorScheme * highlight Variable ctermfg=252
 
 
 syntax enable
@@ -185,6 +187,53 @@ endif
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 execute 'set rtp+=' . g:opamshare . '/merlin/vim'
 
+
+"--------------------------------------------------
+" Color_Coded
+"--------------------------------------------------
+set runtimepath+=/Users/yuki-macbookpro/.vim/bundle/color_coded
+
+
+"--------------------------------------------------
+" SyntaxInfo
+"--------------------------------------------------
+function! s:get_syn_id(transparent)
+  let synid = synID(line("."), col("."), 1)
+  if a:transparent
+    return synIDtrans(synid)
+  else
+    return synid
+  endif
+endfunction
+function! s:get_syn_attr(synid)
+  let name = synIDattr(a:synid, "name")
+  let ctermfg = synIDattr(a:synid, "fg", "cterm")
+  let ctermbg = synIDattr(a:synid, "bg", "cterm")
+  let guifg = synIDattr(a:synid, "fg", "gui")
+  let guibg = synIDattr(a:synid, "bg", "gui")
+  return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()
 
 "--------------------------------------------------
 "NeoBundle
@@ -358,10 +407,10 @@ NeoBundle 'scrooloose/syntastic'
       \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
   "python
 
-  let g:syntastic_error_symbol='❌'
-  let g:syntastic_style_error_symbol = '❌'
-  let g:syntastic_warning_symbol = 'W'
-  let g:syntastic_style_warning_symbol = 'W'
+  let g:syntastic_error_symbol= '×'
+  let g:syntastic_style_error_symbol = '×'
+  let g:syntastic_warning_symbol = '∆'
+  let g:syntastic_style_warning_symbol = '∆'
 
 
   
@@ -442,13 +491,13 @@ NeoBundleLazy 'vim-css3-syntax',{
 "--------------------------------------------------
 "color
 "--------------------------------------------------
-"NeoBundleLazy 'jeaye/color_coded', {
-"  \ 'build': {
-"    \   'unix': 'rm -f CMakeCache.txt && cmake . && make && make install',
-"  \ },
-"  \ 'autoload': { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
-"  \ 'build_commands' : ['cmake', 'make']
-"\}
+"  NeoBundleLazy 'jeaye/color_coded', {
+"    \ 'build': {
+"      \   'unix': 'rm -f CMakeCache.txt && cmake . && make && make install',
+"    \ },
+"    \ 'autoload': { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
+"    \ 'build_commands' : ['cmake', 'make']
+"  \}
 "
 
 call neobundle#end()
@@ -456,7 +505,8 @@ call neobundle#end()
 "}}}
 
 
-
+let g:color_coded_enabled = 1
+let g:color_coded_filetypes = ['c']
 
 " ファイルタイプ別のプラグイン/インデントを有効にする
 filetype plugin indent on
