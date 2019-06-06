@@ -25,12 +25,14 @@ fi
   echo -e '\e[33m Installing NeoBundle and ColorScheme \e[m'
   #echo "Installing NeoBundle and ColorScheme"
 
-  mkdir -p ~/.vim/bundle
-  git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+  mkdir -p $HOME/.vim/bundle
+  git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
 
-  mkdir -p ~/.vim/colors
-  git clone https://github.com/tomasr/molokai ~/.vim/colors
-  cp ~/.vim/colors/colors/molokai.vim ~/.vim/colors
+  mkdir -p $HOME/.vim/colors
+  git clone https://github.com/tomasr/molokai $HOME/.vim/colors
+  cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
+
+  ln -s ./.vimrc $HOME/.vimrc
 
   echo "Installation Completed, Ready to get to start vim"
   echo "Put Symbolic link yourself!!!!!!"

@@ -38,6 +38,8 @@ zstyle ':completion:*:default' menu select=1
 #Aliases
 #--------------------------------------------------------
 
+alias getHomesignal='curl -X GET "https://api.nature.global/1/appliances" -H "accept: application/json" -k --header "Authorization: Bearer 5DF4W4jxkZA3Tpc7Gh26s_d51qjOoGTQZfZkXpn2XU8.U7VB7ux95CN9iSoLMeGnS0nRNz_vBB7ONpRm1OMz94o"|jq .'
+
 case ${USER} in
   yuki-macbookpro)
     alias neco='lolcat'
