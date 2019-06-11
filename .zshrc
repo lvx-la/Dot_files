@@ -48,6 +48,7 @@ case ${USER} in
     alias l~='ls -a ~/'
     alias tree='tree -NC'
     alias ll='ls -lah'
+    alias :q='exit'
     ;;
   Knight-of-Skyrim)
     alias t='tree';;
