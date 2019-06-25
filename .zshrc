@@ -51,7 +51,7 @@ case ${USER} in
     alias :q='exit'
     ;;
   Knight-of-Skyrim)
-    alias t='tree';;
+    alias tree='tree -NC'
 esac
 
 case ${USER} in
@@ -138,6 +138,7 @@ case ${USER} in
   yuki-macbookpro*)
     #my bin
     export PATH="/usr/local/bin/mybin:$PATH"
+    export CPATH=$CPATH:/Users/yuki-macbookpro/Documents/cs2019_IOT/tcar_sample/Includes
     ;;
   Knight-of-Skyrim*)
     export PATH="/usr/local/bin:$PATH"

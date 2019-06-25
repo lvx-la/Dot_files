@@ -4,6 +4,8 @@
 VIM_LOOK_FILE="~/.vimrc"
 TMUX_LOOK_FILE="~/.tmux.conf"
 
+cd $HOME
+
 if [ -f ${VIM_LOOK_FILE} ]; then
   #echo "renameing current .vimrc to .old_vimrc"
   echo -e '\e[33m renameing current .vimrc to .old_vimrc \e[m'
@@ -33,6 +35,7 @@ fi
   cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
 
   ln -s ./.vimrc $HOME/.vimrc
+  ln -s ./.tmux.conf $HOME/.tmux.conf
 
   echo "Installation Completed, Ready to get to start vim"
   echo "Put Symbolic link yourself!!!!!!"
