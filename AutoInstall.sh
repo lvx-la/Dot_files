@@ -3,17 +3,17 @@
 
 VIM_LOOK_FILE="~/.vimrc"
 TMUX_LOOK_FILE="~/.tmux.conf"
+cd `dirname $0`
 
-cd $HOME
 
 if [ -f ${VIM_LOOK_FILE} ]; then
   #echo "renameing current .vimrc to .old_vimrc"
   echo -e '\e[33m renameing current .vimrc to .old_vimrc \e[m'
-  mv ~/.vimrc ~/.old_vimrc
+  mv $HOME/.vimrc $HOME/.old_vimrc
 fi
 if [ -f ${TMUX_LOOK_FILE} ]; then
   echo "renameing current .tmux.conf to .old_tmux.conf"
-  mv ~/.tmux.conf ~/.old_tmux.conf
+  mv $HOME/.tmux.conf $HOME/.old_tmux.conf
 fi
 
 #  echo "put symbolic link .vimrc to ~/ from remote repositoly"
@@ -35,10 +35,9 @@ fi
   git clone https://github.com/tomasr/molokai $HOME/.vim/colors
   cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
 
-  SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
-  ln -s $SCRIPT_DIR/.vimrc $HOME/.vimrc
-  ln -s $SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
+  ln -s ./.vimrc $HOME/.vimrc
+  ln -s ./.tmux.conf $HOME/.tmux.conf
 
   echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start vim"
