@@ -43,4 +43,4 @@ fi
 
   echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start vim"
-  echo "Put Symbolic link yourself!!!!!!"
+  ls -la $HOME
