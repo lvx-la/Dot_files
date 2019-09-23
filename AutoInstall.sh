@@ -3,7 +3,9 @@
 
 VIM_LOOK_FILE="~/.vimrc"
 TMUX_LOOK_FILE="~/.tmux.conf"
-cd `dirname $0`
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+
+cd $HOME
 
 
 if [ -f ${VIM_LOOK_FILE} ]; then
@@ -36,8 +38,8 @@ fi
   cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
 
 
-  ln -s ./.vimrc $HOME/.vimrc
-  ln -s ./.tmux.conf $HOME/.tmux.conf
+  ln -s $SCRIPT_DIR/.vimrc $HOME/.vimrc
+  ln -s $SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
 
   echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start vim"
