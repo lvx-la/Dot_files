@@ -24,6 +24,7 @@ fi
 
 
   #echo -e '\e[33m \e[m'
+  echo "-------------------------------------------------"
   echo -e '\e[33m Installing NeoBundle and ColorScheme \e[m'
   #echo "Installing NeoBundle and ColorScheme"
 
@@ -34,8 +35,11 @@ fi
   git clone https://github.com/tomasr/molokai $HOME/.vim/colors
   cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
 
-  ln -s ./.vimrc $HOME/.vimrc
-  ln -s ./.tmux.conf $HOME/.tmux.conf
+  SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
+  ln -s SCRIPT_DIR/.vimrc $HOME/.vimrc
+  ln -s SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
+
+  echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start vim"
   echo "Put Symbolic link yourself!!!!!!"

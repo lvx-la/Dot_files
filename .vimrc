@@ -390,7 +390,7 @@ augroup END
 "}}}
 
 "--------------------------------------------------
-"文法チェッカー
+"文法チェッカー syntastic
 "--------------------------------------------------
 NeoBundle 'scrooloose/syntastic'
   let g:syntastic_always_populate_loc_list = 1

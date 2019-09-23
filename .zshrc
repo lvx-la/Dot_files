@@ -58,6 +58,9 @@ case ${USER} in
   yuki-macbookpro)
     function cdts(){
       cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Spring
+    }
+    function cdtf(){
+      cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Fall
     };;
   Knight-of-Skyrim)
     function cdts(){
@@ -159,6 +162,7 @@ case ${USER} in
     ;;
   Knight-of-Skyrim*)
     export PATH="/usr/local/bin:$PATH"
+    export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
     ;;
 esac
 
@@ -168,6 +172,7 @@ esac
 #おまじない
 #--------------------------------------------------------
 #Must write on end of .zshrc
+tmux ls
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
