@@ -37,8 +37,8 @@ fi
 
   SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
-  ln -s SCRIPT_DIR/.vimrc $HOME/.vimrc
-  ln -s SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
+  ln -s $SCRIPT_DIR/.vimrc $HOME/.vimrc
+  ln -s $SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
 
   echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start vim"
