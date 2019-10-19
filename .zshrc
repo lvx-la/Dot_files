@@ -82,14 +82,6 @@ export LS_COLORS=gxfxcxdxbxegedabagacad
 colors
 
 #--------------------------------------------------------
-#プロンプト
-#--------------------------------------------------------
-
-#プロンプトに表示する情報
-PROMPT='%F{green}%n%f %~ > '
-
-
-#--------------------------------------------------------
 #gitのブランチ名をプロンプトの右側に表示する
 #--------------------------------------------------------
 #
@@ -124,14 +116,35 @@ function rprompt-git-current-branch {
     branch_status="%F{blue}"
   fi
   # ブランチ名を色付きで表示する
-  echo "${branch_status}[$branch_name]"
+  echo "${branch_status}[$branch_name]%F{cyan}-"
 }
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
 setopt prompt_subst
 
 # プロンプトの右側(RPROMPT)にメソッドの結果を表示させる
-RPROMPT='`rprompt-git-current-branch`'
+#RPROMPT='`rprompt-git-current-branch`[%F{white}%~%F{cyan}]'
+RPORMPT=' '
+
+#--------------------------------------------------------
+#プロンプト
+#--------------------------------------------------------
+function hyphen {
+    repeat `expr $COLUMNS - 110` printf -
+    return
+}
+
+#precmd() {
+#    prompt_l=""
+#    prompt_m="-"
+#    prompt_r=""
+#    printf "%s%$((${COLUMNS} - ${#prompt_l}))s\n" "${prompt_l}" "${prompt_r}"
+#}
+
+#プロンプトに表示する情報
+PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>`hyphen``rprompt-git-current-branch`[%F{white}%~%F{cyan}]
+%# '
+
 
 #--------------------------------------------------------
 #Path to my bin
