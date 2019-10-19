@@ -3,10 +3,13 @@
 
 VIM_LOOK_FILE="~/.vimrc"
 TMUX_LOOK_FILE="~/.tmux.conf"
+ZSH_LOCK_FILE="~/.zshrc"
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
 cd $HOME
 
+  echo "-------------------------------------------------"
+  echo -e '\e[33m locking current .vimc .tmux.conf .zshrc \e[m'
 
 if [ -f ${VIM_LOOK_FILE} ]; then
   #echo "renameing current .vimrc to .old_vimrc"
@@ -17,12 +20,10 @@ if [ -f ${TMUX_LOOK_FILE} ]; then
   echo "renameing current .tmux.conf to .old_tmux.conf"
   mv $HOME/.tmux.conf $HOME/.old_tmux.conf
 fi
-
-#  echo "put symbolic link .vimrc to ~/ from remote repositoly"
-#  ln -s ./.vimrc ~/
-#
-#  echo "putting symbolic link .tmux.conf to ~/ from remote repositoly"
-#  ln -s ./.tmux.conf ~/
+if [ -f ${ZSH_LOCK_FILE} ]; then
+  echo "renameing current .zshrc to .old_zshrc"
+  mv $HOME/.zshrc $HOME/.old_zshrc
+fi
 
 
   #echo -e '\e[33m \e[m'
@@ -40,7 +41,8 @@ fi
 
   ln -s $SCRIPT_DIR/.vimrc $HOME/.vimrc
   ln -s $SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
+  ln -s $SCRIPT_DIR/.zshrc $HOME/.zshrc
 
   echo "-------------------------------------------------"
-  echo "Installation Completed, Ready to get to start vim"
+  echo "Installation Completed, Ready to get to start shell life"
   ls -la $HOME
