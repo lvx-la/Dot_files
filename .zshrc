@@ -143,7 +143,7 @@ function hyphen {
 
 #プロンプトに表示する情報
 PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>`hyphen``rprompt-git-current-branch`[%F{white}%~%F{cyan}]
-%# '
+%# %F{default}'
 
 
 #--------------------------------------------------------
