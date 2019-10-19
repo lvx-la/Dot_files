@@ -293,6 +293,19 @@ NeoBundle 'let-def/ocp-indent-vim'
 
 
 "--------------------------------------------------
+" javacomplete
+"--------------------------------------------------
+NeoBundleLazy 'vim-scripts/javacomplete', {
+\   'build': {
+\       'cygwin': 'javac autoload/Reflection.java',
+\       'mac': 'javac autoload/Reflection.java',
+\       'unix': 'javac autoload/Reflection.java',
+\   },
+\}
+
+let java_highlight_functions = 1
+
+"--------------------------------------------------
 "インデントライン
 "--------------------------------------------------
 NeoBundle 'Yggdroot/indentLine'
