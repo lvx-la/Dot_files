@@ -97,19 +97,19 @@ function rprompt-git-current-branch {
   st=`git status 2> /dev/null`
   if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
     # 全てcommitされてクリーンな状態
-    branch_status="%F{green}"
+    branch_status="%F{green} "
   elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
     # gitに管理されていないファイルがある状態
-    branch_status="%F{red}?"
+    branch_status="%F{red}? "
   elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
     # git addされていないファイルがある状態
-    branch_status="%F{red}+"
+    branch_status="%F{red}+ "
   elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
     # git commitされていないファイルがある状態
-    branch_status="%F{yellow}!"
+    branch_status="%F{yellow}! "
   elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
     # コンフリクトが起こった状態
-    echo "%F{red}!(no branch)"
+    echo "%F{red}!(no branch) "
     return
   else
     # 上記以外の状態の場合は青色で表示させる
@@ -130,7 +130,10 @@ RPORMPT=' '
 #プロンプト
 #--------------------------------------------------------
 function hyphen {
-    repeat `expr $COLUMNS - 110` printf -
+    numberOfHyphen=`expr $COLUMNS - 75`
+    Hyphens=`repeat $numberOfHyphen printf -`
+    NijiHyphens=`echo $Hyphens | lolcat`
+    echo $NijiHyphens
     return
 }
 
@@ -142,7 +145,7 @@ function hyphen {
 #}
 
 #プロンプトに表示する情報
-PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>`hyphen``rprompt-git-current-branch`[%F{white}%~%F{cyan}]
+PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>---`hyphen``rprompt-git-current-branch`[%F{white}%C%F{cyan}]
 %# %F{default}'
 
 
@@ -180,12 +183,22 @@ case ${USER} in
 esac
 
 
+#--------------------------------------------------------
+#入力した文字から始まるコマンド履歴を検索
+#--------------------------------------------------------
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
 
 #--------------------------------------------------------
-#おまじない
+#プラギン読むよ
 #--------------------------------------------------------
 #Must write on end of .zshrc
 tmux ls
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 

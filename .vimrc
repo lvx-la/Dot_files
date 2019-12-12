@@ -136,13 +136,14 @@ syntax enable
 "補完をJとKに逃す
 "inoremap <C-p> <C-k>
 "inoremap <C-n> <C-j>
-"インサートモードの時のキーバインドをことえりのキーバインドにする
-"inoremap <C-p> <Esc>ki
-"inoremap <C-n> <Esc>ji
-inoremap <C-f> <Esc>lli
-inoremap <C-b> <Esc>i
-inoremap <C-e> <Esc>A
+"インサートモードの時のキーバインドをEmacsと一緒にする
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-e> <End>
 inoremap <C-a> <Esc>I
+inoremap <C-h> <BS>
 nnoremap <F10> :terminal ++curwin <CR>
 
 "}}}
@@ -383,14 +384,16 @@ endfunction
 
 
 function! LightLineFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && winwidth(0) > 55
-      let _ = fugitive#head()
-      return strlen(_) ? '⥬ '._ : ''
+    if $USER == 'yuki-macbookpro'
+        try
+          if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && winwidth(0) > 55
+            let _ = fugitive#head()
+            return strlen(_) ? ' '._ : ''
+          endif
+        catch
+        endtry
+        return ''
     endif
-  catch
-  endtry
-  return ''
 endfunction
 
 
@@ -407,10 +410,11 @@ augroup END
 "--------------------------------------------------
 NeoBundle 'scrooloose/syntastic'
   let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_auto_loc_list = 0
   let g:syntastic_check_on_open = 1
   let g:syntastic_check_on_wq = 0
   let g:syntastic_enable_signs=1
+  let g:syntastic_loc_list_height= 5
 
 
   let g:syntastic_ocaml_checkers = ['merlin'] 
@@ -422,11 +426,14 @@ NeoBundle 'scrooloose/syntastic'
       \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
   "python
 
-  let g:syntastic_error_symbol= '×'
-  let g:syntastic_style_error_symbol = '×'
-  let g:syntastic_warning_symbol = '∆'
-  let g:syntastic_style_warning_symbol = '∆'
-
+  let g:syntastic_error_symbol= ''
+  let g:syntastic_style_error_symbol = ''
+  let g:syntastic_warning_symbol = ''
+  let g:syntastic_style_warning_symbol = ''
+  
+  "色
+  hi SyntasticWarningSign ctermfg=11
+  hi SyntasticErrorSign ctermfg=9
 
   
 "----------------------------------------------------

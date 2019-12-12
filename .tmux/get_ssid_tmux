@@ -26,8 +26,8 @@ if air_info=($(eval "$airport_path" -I | grep -E "^ *(agrCtlRSSI|state|SSID):" |
       ssid_shortform=$(echo $ssid | head -c 7)
       airport_=" ${signal} #[underscore]${ssid_shortform}#[default] "
     ;;
-    "init"    ) airport_="#[fg=yellow] ... " ;;
-    *         ) airport_="#[fg=red] ✘  " ;;
+    "init"    ) airport_="#[fg=yellow]  #[fg=default]" ;;
+    *         ) airport_="#[fg=red]   #[fg=default]" ;;
   esac  
   echo "|#[default]${airport_}|#[default] "
 fi
