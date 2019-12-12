@@ -1,6 +1,8 @@
 # USER INPUT
 fpath=(~/.zsh/completion $fpath)
 
+export TERM=xterm-256color
+
 #if [ "$(uname)" == 'Darwin' ]; then
 #  OS='Mac'
 #elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then

@@ -3,6 +3,7 @@
 "--------------------------------------------------
 "{{{
 "文字コードをUFT-8に設定
+set encoding=utf-8
 set fenc=utf-8
 scriptencoding utf-8
 " バックアップファイルを作らない
@@ -262,7 +263,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "--------------------------------------------------
 " テンプレート
 "--------------------------------------------------
-autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
+"autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 
 "#################################################
 " インストールするプラグインをここに記述
@@ -409,17 +410,17 @@ NeoBundle 'scrooloose/syntastic'
       \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
   "python
 
-  let g:syntastic_error_symbol= '×'
-  let g:syntastic_style_error_symbol = '×'
-  let g:syntastic_warning_symbol = '∆'
-  let g:syntastic_style_warning_symbol = '∆'
+  let g:syntastic_error_symbol= 'x'
+  let g:syntastic_style_error_symbol = 'x'
+  let g:syntastic_warning_symbol = '-'
+  let g:syntastic_style_warning_symbol = '-'
 
 
   
 "----------------------------------------------------
 "lldb
 "---------------------------------------------------
-  NeoBundle 'gilligan/vim-lldb'
+"  NeoBundle 'gilligan/vim-lldb'
 
 "----------------------------------------------------
   "ネオコン
