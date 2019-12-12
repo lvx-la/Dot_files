@@ -427,6 +427,13 @@ NeoBundle 'scrooloose/syntastic'
       \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
   "python
 
+<<<<<<< HEAD
+  let g:syntastic_error_symbol= 'x'
+  let g:syntastic_style_error_symbol = 'x'
+  let g:syntastic_warning_symbol = '-'
+  let g:syntastic_style_warning_symbol = '-'
+
+=======
   let g:syntastic_error_symbol= ''
   let g:syntastic_style_error_symbol = ''
   let g:syntastic_warning_symbol = ''
@@ -435,6 +442,7 @@ NeoBundle 'scrooloose/syntastic'
   "色
   hi SyntasticWarningSign ctermfg=11
   hi SyntasticErrorSign ctermfg=9
+>>>>>>> origin/beta
 
   
 "----------------------------------------------------
