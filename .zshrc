@@ -96,7 +96,7 @@ function rprompt-git-current-branch {
   st=`git status 2> /dev/null`
   if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
     # 全てcommitされてクリーンな状態
-    branch_status=" "
+    branch_status="   "
   elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
     # gitに管理されていないファイルがある状態
     branch_status="\e[38;5;2m\e[0m\e[48;5;2mU "
@@ -105,7 +105,7 @@ function rprompt-git-current-branch {
     branch_status="\e[38;5;3m\e[0m\e[48;5;3mM "
   elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
     # git commitされていないファイルがある状態
-    branch_status="\e[38;5;5m\e[0m\e[48;5;5m\! "
+    branch_status="\e[38;5;5m\e[0m\e[48;5;5m! "
   elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
     # コンフリクトが起こった状態
     echo "\e[38;5;1m\e[0m\e[48;5;1m Conflict  \e[0m"
