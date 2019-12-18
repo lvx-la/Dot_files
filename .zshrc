@@ -68,7 +68,6 @@ case ${USER} in
     };;
 esac
 
-echo "Wellcome" ${USER}
 
 #--------------------------------------------------------
 #色
@@ -85,9 +84,9 @@ colors
 #gitのブランチ名をプロンプトの右側に表示する
 #--------------------------------------------------------
 #
-# ブランチ名を色付きで表示させるメソッド
+# ブランチ名を色付きで表示させる関数
 function rprompt-git-current-branch {
-  local branch_name st branch_status
+  local st branch_status
 
   if [ ! -e  ".git" ]; then
     # gitで管理されていないディレクトリは何も返さない
@@ -97,26 +96,26 @@ function rprompt-git-current-branch {
   st=`git status 2> /dev/null`
   if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
     # 全てcommitされてクリーンな状態
-    branch_status="%F{green} "
+    branch_status=" "
   elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
     # gitに管理されていないファイルがある状態
-    branch_status="%F{red}? "
+    branch_status="\e[38;5;2m\e[0m\e[48;5;2mU "
   elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
     # git addされていないファイルがある状態
-    branch_status="%F{red}+ "
+    branch_status="\e[38;5;3m\e[0m\e[48;5;3mM "
   elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
     # git commitされていないファイルがある状態
-    branch_status="%F{yellow}! "
+    branch_status="\e[38;5;5m\e[0m\e[48;5;5m\! "
   elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
     # コンフリクトが起こった状態
-    echo "%F{red}!(no branch) "
+    echo "\e[38;5;1m\e[0m\e[48;5;1m Conflict  \e[0m"
     return
   else
     # 上記以外の状態の場合は青色で表示させる
-    branch_status="%F{blue}"
+    branch_status=""
   fi
   # ブランチ名を色付きで表示する
-  echo "${branch_status}[$branch_name]%F{cyan}-"
+  echo "${branch_status}$branch_name\e[0m"
 }
 
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
@@ -129,24 +128,51 @@ RPORMPT=' '
 #--------------------------------------------------------
 #プロンプト
 #--------------------------------------------------------
-function hyphen {
-    numberOfHyphen=`expr $COLUMNS - 75`
-    Hyphens=`repeat $numberOfHyphen printf -`
-    NijiHyphens=`echo $Hyphens | lolcat`
-    echo $NijiHyphens
-    return
+function numberOfHistory {
+    history | tail -n 1 | awk '{printf ($1+1)}'
 }
 
-#precmd() {
-#    prompt_l=""
-#    prompt_m="-"
-#    prompt_r=""
-#    printf "%s%$((${COLUMNS} - ${#prompt_l}))s\n" "${prompt_l}" "${prompt_r}"
-#}
+function thdirs {
+    echo $PWD | awk -F '/' '{for(i=(NF-2);i<NF;++i){printf("%s/",$i)}print $NF}'
+}
+
+
+#TODO 書き方アホみたいに汚い 上の関数利用しろや
+#2バイト文字(Nardfontだけかも)をトイレに投げるとバグる
+#プロンプトに2バイト文字入っている時は右に張り付いて、そうでない時は右2文字開くようになっている。
+function hypen {
+    local hendoustr hendoustr1 hendoustr2 hendoustr3 hendouLength numberOfHyphens hypens
+    hendoustr=`history | tail -n 1 | awk '{printf ($1+1)}'`
+    hendoustr1=`echo "$USER"`
+    hendoustr2=`echo $PWD | awk -F '/' '{for(i=(NF-2);i<NF;++i){printf("%s/",$i)}print $NF}'`
+    #hendoustr3=`rprompt-git-current-branch`
+    hendouLength=`echo $hendoustr$hendoustr1$hendoustr2 | wc -m | awk '{print $1}'`
+
+    if [ ! -e  ".git" ]; then
+        numberOfDefaultString=15
+    else
+        nuberOfBranchName=`echo $branch_name | wc -m | awk '{print $1}'`
+        numberOfDefaultString=`expr 22 + $nuberOfBranchName`
+    fi
+    numberOfHyphens=`expr $COLUMNS - \( $hendouLength + $numberOfDefaultString \)`
+    hypens=`repeat $numberOfHyphens printf "-"`
+    echo $hypens
+}
+
+myPreFunc2() {
+    printf "\e[38;5;87m-{\e[38;5;11m `numberOfHistory` \e[38;5;87m}---< \e[38;5;2m$USER \e[38;5;87m>\e[m"
+
+    printf "`hypen`" | lolcat
+
+    printf "`rprompt-git-current-branch`\e[38;5;87m[`thdirs`]\n"
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd myPreFunc2
 
 #プロンプトに表示する情報
-PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>---`hyphen``rprompt-git-current-branch`[%F{white}%C%F{cyan}]
-%# %F{default}'
+#PROMPT='%F{cyan}-{%F{yellow} %h %F{cyan}}---(%F{white} %* %F{cyan})---<%F{green} %n %F{cyan}>---`hyphen``rprompt-git-current-branch`[%F{white}%C%F{cyan}]
+PROMPT='%# %F{default}'
 
 
 #--------------------------------------------------------
@@ -193,11 +219,18 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
+
+#--------------------------------------------------------
+#プレコマンド
+#--------------------------------------------------------
+echo "Wellcome" ${USER} | lolcat
+tmux ls
+
 #--------------------------------------------------------
 #プラギン読むよ
 #--------------------------------------------------------
 #Must write on end of .zshrc
-tmux ls
+
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
