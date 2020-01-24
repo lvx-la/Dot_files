@@ -274,6 +274,8 @@ autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 " かっことか自動入力
 "--------------------------------------------------
 NeoBundle 'cohama/lexima.vim'
+NeoBundle 'tpope/vim-surround'
+
 
 "--------------------------------------------------
 "インデントガイダンス ダサい方
