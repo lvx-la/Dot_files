@@ -1,3 +1,15 @@
 #!/bin/sh
 
-echo "(#[fg=yellow]$(uptime | awk '{print $(NF-2)}')#[default]) "
+loadAverage=`echo "$(uptime | awk '{print $(NF-2)}')"`
+
+if [ "$(echo "$loadAverage > 10" | bc)" -eq 1 ]; then
+    Colored_loadAverage="#[fg=colour1]$loadAverage#[default]"
+elif [ "$(echo "$loadAverage > 3" | bc)" -eq 1 ]; then
+    Colored_loadAverage="#[fg=colour208]$loadAverage#[default]"
+elif [ "$(echo "$loadAverage > 2" | bc)" -eq 1 ]; then
+    Colored_loadAverage="#[fg=colour3]$loadAverage#[default]"
+else
+    Colored_loadAverage="#[fg=colour2]$loadAverage#[default]"
+fi
+
+echo $Colored_loadAverage
