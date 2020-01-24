@@ -198,13 +198,13 @@ esac
 case ${USER} in
   yuki-macbookpro*)
     # added by Miniconda3 4.3.21 installer
-    export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"
+# export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"  # commented out by conda initialize
     # opam configuration
     test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
     ;;
   Knight-of-Skyrim*)
     export PATH="/usr/local/bin:$PATH"
-    export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
+# export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"  # commented out by conda initialize
     ;;
 esac
 
@@ -223,7 +223,9 @@ bindkey "^[[B" down-line-or-beginning-search
 #--------------------------------------------------------
 #プレコマンド
 #--------------------------------------------------------
-echo "Wellcome" ${USER} | lolcat
+#echo "Wellcome" ${USER} | lolcat
+echo "Wellcome $USER" | figlet -f larry3d | lolcat
+echo "====== TMUX SESSIONS ======" | lolcat
 tmux ls
 
 #--------------------------------------------------------
@@ -234,4 +236,20 @@ tmux ls
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/Knight-of-Skyrim/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
