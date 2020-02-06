@@ -421,11 +421,12 @@ NeoBundle 'scrooloose/syntastic'
 
   let g:syntastic_ocaml_checkers = ['merlin'] 
   let g:syntastic_python_checkers = ['pylint']
+  let g:syntastic_go_checkers = ['go', 'golint', 'govet']
   "let g:syntastic_c_checkers = ['clang']
 
   let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [
     \ 'ruby','javascript','coffee', 'scss', 'html', 'haml', 'slim', 'sh',
-      \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
+      \ 'spec', 'vim', 'zsh', 'sass', 'eruby' , 'ocaml', 'go'] }  
   "python
 
   let g:syntastic_error_symbol= ''
