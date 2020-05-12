@@ -81,6 +81,20 @@ export LS_COLORS=gxfxcxdxbxegedabagacad
 colors
 
 #--------------------------------------------------------
+#show figleted strings with each arivable fonts
+#--------------------------------------------------------
+if type "figlet" > /dev/null 2>&1; then
+    showfiglet() {
+        for i in {1..$(ls $(figlet -I 2) | grep -v / | grep .flf | wc -l | awk '{printf ($1)}')}
+        do
+            basename $(ls $(figlet -I 2) | grep -v / | grep .flf | head -n $i | tail -n 1) .flf;
+            echo $1 | figlet -f $(basename $(ls $(figlet -I 2) | grep -v / | grep .flf | head -n $i | tail -n 1) .flf)
+        done
+}
+fi
+
+
+#--------------------------------------------------------
 #gitのブランチ名をプロンプトの右側に表示する
 #--------------------------------------------------------
 #
@@ -155,12 +169,12 @@ function hypen {
         numberOfDefaultString=`expr 22 + $nuberOfBranchName`
     fi
     numberOfHyphens=`expr $COLUMNS - \( $hendouLength + $numberOfDefaultString \)`
-    hypens=`repeat $numberOfHyphens printf "-"`
+    hypens=`repeat $numberOfHyphens printf "─"`
     echo $hypens
 }
 
 myPreFunc2() {
-    printf "\e[38;5;87m-{\e[38;5;11m `numberOfHistory` \e[38;5;87m}---< \e[38;5;2m$USER \e[38;5;87m>\e[m"
+    printf "\e[38;5;87m─{\e[38;5;11m `numberOfHistory` \e[38;5;87m}───< \e[38;5;2m$USER \e[38;5;87m>\e[m"
 
     printf "`hypen`" | lolcat
 
@@ -224,7 +238,7 @@ bindkey "^[[B" down-line-or-beginning-search
 #プレコマンド
 #--------------------------------------------------------
 #echo "Wellcome" ${USER} | lolcat
-echo "Wellcome $USER" | figlet -f larry3d | lolcat
+echo "Wellcome" | figlet -f larry3d | lolcat
 echo "====== TMUX SESSIONS ======" | lolcat
 tmux ls
 
@@ -237,19 +251,29 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/Knight-of-Skyrim/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh"
+case ${USER} in
+  yuki-macbookpro*)
+    ;;
+  Knight-of-Skyrim*)
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/Users/Knight-of-Skyrim/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
+        if [ -f "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh" ]; then
+            . "/Users/Knight-of-Skyrim/miniconda3/etc/profile.d/conda.sh"
+        else
+            export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
+        fi
     fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+    # >>> conda initialize >>>
+    test -r /Users/Knight-of-Skyrim/.opam/opam-init/init.zsh && . /Users/Knight-of-Skyrim/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+    # <<< opam configuration <<<
+    ;;
+esac
+
 

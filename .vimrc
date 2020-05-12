@@ -43,6 +43,10 @@ set wildmode=list:longest
 nnoremap j gj
 nnoremap k gk
 
+"結構くそ
+" コメントアウト削除
+nnoremap dc ^2x
+" コメントアウト追加
 
 " Tab系
 " 不可視文字を可視化(タブが「▸-」と表示される)
@@ -120,9 +124,13 @@ autocmd ColorScheme * highlight Comment ctermfg=244 guifg=#888888
 autocmd ColorScheme * highlight cursorline cterm=underline ctermfg=NONE guifg=#FF0000
 autocmd ColorScheme * highlight cursorcolumn ctermbg=238 guifg=#888888
 autocmd ColorScheme * highlight Variable ctermfg=252
-
+"autocmd ColorScheme * highlight Identifier ctermfg=200
+"
+" 自作color_coded for go
+set runtimepath+=/Users/$USER/.vim/syntax/go.vim
 
 syntax enable
+
 "}}}
 
 
