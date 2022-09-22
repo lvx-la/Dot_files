@@ -1,71 +1,15 @@
-# USER INPUT
-fpath=(~/.zsh/completion $fpath)
-
-#if [ "$(uname)" == 'Darwin' ]; then
-#  OS='Mac'
-#elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-#  OS='Linux'
-#elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW32_NT' ]; then                                                                                           
-#  OS='Cygwin'
-#else
-#  echo "Your platform ($(uname -a)) is not supported."
-#  exit 1
-#fi
-#
-##Auto Install Homebrew (Garbage Code)
-#if [ type "brew" > /dev/null 2>&1 ]; then
-#elif [ $OS='Mac' ]; then
-#  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-#fi
-
-#Ctrl-Dで終了させない
-setopt ignoreeof
-setopt nonomatch
-
-
-# The following lines were added by compinstall
-
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle ':completion:*' max-errors 3
-zstyle :compinstall filename '/Users/yuki-macbookpro/.zshrc'
-
-autoload -U compinit
-compinit
-zstyle ':completion:*:default' menu select=1
-# End of lines added by compinstall
-
 #--------------------------------------------------------
 #Aliases
 #--------------------------------------------------------
-
-alias getHomesignal='curl -X GET "https://api.nature.global/1/appliances" -H "accept: application/json" -k --header "Authorization: Bearer 5DF4W4jxkZA3Tpc7Gh26s_d51qjOoGTQZfZkXpn2XU8.U7VB7ux95CN9iSoLMeGnS0nRNz_vBB7ONpRm1OMz94o"|jq .'
-
 case ${USER} in
-  yuki-macbookpro)
-    alias neco='lolcat'
-    alias cat='lolcat -n'
-    alias connect-u='sh ~/Desktop/ConnectUbuntu.sh'
-    alias l~='ls -a ~/'
+  yu2ki)
+    alias cat='lolcat'
     alias tree='tree -NC'
     alias ll='ls -lah'
     alias :q='exit'
     ;;
   Knight-of-Skyrim)
     alias tree='tree -NC'
-esac
-
-case ${USER} in
-  yuki-macbookpro)
-    function cdts(){
-      cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Spring
-    }
-    function cdtf(){
-      cd /Users/yuki-macbookpro/Documents/大学/Third_Grade/Fall
-    };;
-  Knight-of-Skyrim)
-    function cdts(){
-      cd /Users/Knight-of-Skyrim/Documents/東洋大学/3年生/Spring
-    };;
 esac
 
 echo "Wellcome" ${USER}
@@ -134,39 +78,14 @@ setopt prompt_subst
 RPROMPT='`rprompt-git-current-branch`'
 
 #--------------------------------------------------------
-#Path to my bin
+#autocomplete
 #--------------------------------------------------------
-
-case ${USER} in
-  yuki-macbookpro*)
-    #my bin
-    export PATH="/usr/local/bin/mybin:$PATH"
-    export CPATH=$CPATH:/Users/yuki-macbookpro/Documents/cs2019_IOT/tcar_sample/Includes
-    ;;
-  Knight-of-Skyrim*)
-    export PATH="/usr/local/bin:$PATH"
-    ;;
-esac
-
+autoload -U compinit
+compinit
 
 #--------------------------------------------------------
 #path to develop apps
 #--------------------------------------------------------
-
-case ${USER} in
-  yuki-macbookpro*)
-    # added by Miniconda3 4.3.21 installer
-    export PATH="/Users/yuki-macbookpro/miniconda3/bin:$PATH"
-    # opam configuration
-    test -r /Users/yuki-macbookpro/.opam/opam-init/init.zsh && . /Users/yuki-macbookpro/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-    ;;
-  Knight-of-Skyrim*)
-    export PATH="/usr/local/bin:$PATH"
-    export PATH="/Users/Knight-of-Skyrim/miniconda3/bin:$PATH"
-    ;;
-esac
-
-
 
 #--------------------------------------------------------
 #おまじない
@@ -175,4 +94,4 @@ esac
 tmux ls
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-
+alias python="python3"

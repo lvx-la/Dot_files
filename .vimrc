@@ -242,22 +242,6 @@ command! SyntaxInfo call s:get_syn_info()
 "--------------------------------------------------
 "{{{
 
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
-
-if &compatible
-  set nocompatible               " Be iMproved
-endif
-
-" Required:
-set runtimepath+=~/.vim/bundle/neobundle.vim/
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
 
 "--------------------------------------------------
 " テンプレート
@@ -272,7 +256,6 @@ autocmd BufNewFile *.c 0r $HOME/.vim/template/c.txt
 "--------------------------------------------------
 " かっことか自動入力
 "--------------------------------------------------
-NeoBundle 'cohama/lexima.vim'
 
 "--------------------------------------------------
 "インデントガイダンス ダサい方
@@ -288,223 +271,20 @@ NeoBundle 'cohama/lexima.vim'
 "OCamlのインデント
 "--------------------------------------------------
 
-NeoBundle 'let-def/ocp-indent-vim'
 
 
 
 "--------------------------------------------------
 "インデントライン
 "--------------------------------------------------
-NeoBundle 'Yggdroot/indentLine'
-  let g:indentLine_color_term = 244 
-  let g:indentLine_char = '┆'
 
 "--------------------------------------------------
 "ステータスライン
 "--------------------------------------------------
-"
-"{{{
-NeoBundle 'itchyny/lightline.vim'
-      
-let g:syntastic_mode_map = { 'mode': 'passive' }
-let g:lightline = {
-      \'active':{
-      \ 'left':[['mode','paste'], ['fugitive','branch','readonly','filepath','modified']],
-      \ 'right':[
-      \ [ 'syntastic', 'lineinfo' ],
-      \ [ 'percent' ], [ 'winform' ], 
-      \ [ 'fileformat','fileencoding','filetype' ]
-      \ ]
-      \ },
-      \
-      \'component_function':{
-      \ 'filepath':'FilePath',
-      \ 'fugitive':'LightLineFugitive',
-      \ 'fileformat': 'LightLineFileformat',
-      \ 'fileencoding': 'LightLineFileencoding',
-      \ 'filetype': 'LightLineFiletype'
-      \},
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \   'warning':'#warningmsg#'
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \   'warning':'error'
-      \ }
-      \}
-
-"""\ 'winform': 'LightLineWinform',
-let g:lightline.component = {
-    \ 'lineinfo': '%3l[%L]:%-2v'}
-
-function! LightLineWinform()
-  return winwidth(0) > 88 ? 'w' . winwidth(0) . ':' . 'h' . winheight(0) : ''
-endfunction
-
-function! LightLineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileformat()
-  return winwidth(0) > 80 ? &fileformat : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 60 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! FilePath()
-  if winwidth(0) > 30
-    return expand("%:s")
-  else
-    return expand("%:t")
-  endif
-endfunction
-
-
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
-
-
-function! LightLineFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && winwidth(0) > 55
-      let _ = fugitive#head()
-      return strlen(_) ? '⥬ '._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-
-
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-augroup END
-
-"}}}
 
 "--------------------------------------------------
 "文法チェッカー syntastic
 "--------------------------------------------------
-NeoBundle 'scrooloose/syntastic'
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 0
-  let g:syntastic_enable_signs=1
-
-
-  let g:syntastic_ocaml_checkers = ['merlin'] 
-  let g:syntastic_python_checkers = ['pylint']
-  "let g:syntastic_c_checkers = ['clang']
-
-  let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': [
-    \ 'ruby','javascript','coffee', 'scss', 'html', 'haml', 'slim', 'sh',
-      \ 'spec', 'vim', 'zsh', 'sass', 'eruby' ,'ocaml'] }  
-  "python
-
-  let g:syntastic_error_symbol= '×'
-  let g:syntastic_style_error_symbol = '×'
-  let g:syntastic_warning_symbol = '∆'
-  let g:syntastic_style_warning_symbol = '∆'
-
-
-  
-"----------------------------------------------------
-"lldb
-"---------------------------------------------------
-  NeoBundle 'gilligan/vim-lldb'
-
-"----------------------------------------------------
-  "ネオコン
-"----------------------------------------------------
-
-  NeoBundle 'Shougo/NeoComplete'
-    let g:neocomplete#enable_at_startup = 1
-    " 大文字が入力されるまで大文字小文字の区別をなくす
-    let g:neocomplete#enable_smart_case = 1
-    "3文字以上の単語に対して保管を有効にする
-    let g:neocomplete#min_keyword_length = 3
-    let g:neocomplete#max_list = 20
-    
-    let g:neocomplete#auto_completion_start_length = 1
-    inoremap <expr> <C-h>
-      \ neocomplete#smart_close_popup()
-
-
-  NeoBundle 'Shougo/neosnippet-snippets'  
-  NeoBundle 'Shougo/neosnippet.vim'
-
-
-  NeoBundle 'Shougo/neco-syntax'
-    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k>     <Plug>(neosnippet_expand_target)
-  " SuperTab like snippets behavior.
-    imap  <expr><TAB>
-          \ neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-       
-    smap <expr><TAB> 
-          \ neosnippet#expandable_or_jumpable() ?
-          \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-       
-      if has('conceal')
-        set conceallevel=2 concealcursor=i
-      endif
-
-"--------------------------------------------------
-"FileTree
-"--------------------------------------------------
-  NeoBundle 'scrooloose/nerdtree'
-  nnoremap <C-e> :NERDTreeToggle<CR>
-
-"----------------------------------------------------
-"git
-"---------------------------------------------------
-  NeoBundle 'tpope/vim-fugitive'
-  set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-
-"--------------------------------------------------
-"HTML&CSS
-"--------------------------------------------------
-NeoBundleLazy 'mattn/emmet-vim',{
-      \'autoload':{'filetypes':['html']}
-      \}
-
-NeoBundleLazy 'vim-css3-syntax',{
-      \'autoload':{'filetypes':['css']}
-      \}
-
-"NeoBundleLazy 'pangloss/vim-javascript',{
-      \'autoload':{'filetypes':['js']}
-      \}
-
-"NeoBundleLazy 'othree/html5.vim',{
-"      \'autoload':{'filetypes':['html']}
-"      \}
-"
-"--------------------------------------------------
-"color
-"--------------------------------------------------
-"  NeoBundleLazy 'jeaye/color_coded', {
-"    \ 'build': {
-"      \   'unix': 'rm -f CMakeCache.txt && cmake . && make && make install',
-"    \ },
-"    \ 'autoload': { 'filetypes' : ['c', 'cpp', 'objc', 'objcpp'] },
-"    \ 'build_commands' : ['cmake', 'make']
-"  \}
-"
-
-call neobundle#end()
-
-"}}}
 
 
 let g:color_coded_enabled = 1
