@@ -26,17 +26,17 @@ if [ -f ${ZSH_LOCK_FILE} ]; then
 fi
 
 
-  #echo -e '\e[33m \e[m'
-  echo "-------------------------------------------------"
-  echo -e '\e[33m Installing NeoBundle and ColorScheme \e[m'
-  #echo "Installing NeoBundle and ColorScheme"
+  # #echo -e '\e[33m \e[m'
+  # echo "-------------------------------------------------"
+  # echo -e '\e[33m Installing NeoBundle and ColorScheme \e[m'
+  # #echo "Installing NeoBundle and ColorScheme"
 
-  mkdir -p $HOME/.vim/bundle
-  git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+  # mkdir -p $HOME/.vim/bundle
+  # git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
 
-  mkdir -p $HOME/.vim/colors
-  git clone https://github.com/tomasr/molokai $HOME/.vim/colors
-  cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
+  # mkdir -p $HOME/.vim/colors
+  # git clone https://github.com/tomasr/molokai $HOME/.vim/colors
+  # cp $HOME/.vim/colors/colors/molokai.vim $HOME/.vim/colors
 
 
   ln -s $SCRIPT_DIR/.vimrc $HOME/.vimrc
