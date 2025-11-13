@@ -1,9 +1,9 @@
 #!/bin/sh
 
 
-VIM_LOOK_FILE="~/.vimrc"
-TMUX_LOOK_FILE="~/.tmux.conf"
-ZSH_LOCK_FILE="~/.zshrc"
+VIM_FILE="$HOME/.vimrc"
+TMUX_FILE="$HOME/.tmux.conf"
+ZSH_FILE="$HOME/.zshrc"
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
 cd $HOME
@@ -11,18 +11,17 @@ cd $HOME
   echo "-------------------------------------------------"
   echo -e '\e[33m locking current .vimc .tmux.conf .zshrc \e[m'
 
-if [ -f ${VIM_LOOK_FILE} ]; then
-  #echo "renameing current .vimrc to .old_vimrc"
+if [ -f "${VIM_FILE}" ]; then
   echo -e '\e[33m renameing current .vimrc to .old_vimrc \e[m'
-  mv $HOME/.vimrc $HOME/.old_vimrc
+  mv "${VIM_FILE}" "$HOME/.old_vimrc"
 fi
-if [ -f ${TMUX_LOOK_FILE} ]; then
+if [ -f "${TMUX_FILE}" ]; then
   echo "renameing current .tmux.conf to .old_tmux.conf"
-  mv $HOME/.tmux.conf $HOME/.old_tmux.conf
+  mv "${TMUX_FILE}" "$HOME/.old_tmux.conf"
 fi
-if [ -f ${ZSH_LOCK_FILE} ]; then
+if [ -f "${ZSH_FILE}" ]; then
   echo "renameing current .zshrc to .old_zshrc"
-  mv $HOME/.zshrc $HOME/.old_zshrc
+  mv "${ZSH_FILE}" "$HOME/.old_zshrc"
 fi
 
 
