@@ -3,7 +3,7 @@
 #--------------------------------------------------------
 case ${USER} in
   yu2ki)
-    alias cat='lolcat'
+    # alias cat='lolcat'
     alias tree='tree -NC'
     alias ll='ls -lah'
     alias :q='exit'
@@ -12,7 +12,6 @@ case ${USER} in
     alias tree='tree -NC'
 esac
 
-echo "Wellcome" ${USER}
 
 #--------------------------------------------------------
 #色
@@ -30,8 +29,55 @@ colors
 #--------------------------------------------------------
 
 #プロンプトに表示する情報
-PROMPT='%F{green}%n%f %~ > '
+PROMPT_INS="%F{blue}[INS]%f "
+PROMPT_NOR="%F{green}[NOR]%f "
+PROMPT_VIS="%F{yellow}[VIS]%f "
 
+## 初期値
+VIM_MODE_PROMPT=$PROMPT_INS
+# AWSアカウント番号（末尾4桁）
+if [[ -n "$AWS_ACCESS_KEY_ID" || -n "$AWS_PROFILE" ]]; then
+    AWS_ACCOUNT_NUM=$(aws sts get-caller-identity | jq -r '.Account' | rev | cut -c 1-4 | rev)
+else
+    AWS_ACCOUNT_NUM=""
+fi
+# キャッシュ
+cache_aws_access_key=$AWS_ACCESS_KEY_ID
+cache_aws_profile=$AWS_PROFILE
+
+function vim-mode {
+    if [[ $REGION_ACTIVE -ne 0 ]]; then
+        VIM_MODE_PROMPT=$PROMPT_VIS
+    elif [[ $KEYMAP = vicmd ]]; then
+        VIM_MODE_PROMPT=$PROMPT_NOR
+    elif [[ $KEYMAP = main ]]; then
+        VIM_MODE_PROMPT=$PROMPT_INS
+    fi
+}
+
+function zle-line-init {
+    # AWS アカウント番号更新
+    vim-mode
+    if [[ $cache_aws_access_key != $AWS_ACCESS_KEY_ID ]] || [[ $cache_aws_profile != $AWS_PROFILE ]]; then
+        AWS_ACCOUNT_NUM=`aws sts get-caller-identity | jq -r '.Account' | rev | cut -c 1-4 | rev`
+        cache_aws_access_key=$AWS_ACCESS_KEY_ID
+        cache_aws_profile=$AWS_PROFILE
+    fi
+    PROMPT=$'%F{green}%n [$AWS_ACCOUNT_NUM]%f %~ \n$VIM_MODE_PROMPT >'
+    zle reset-prompt
+}
+
+function zle-keymap-select {
+    vim-mode
+    PROMPT=$'%F{green}%n [$AWS_ACCOUNT_NUM]%f %~ \n$VIM_MODE_PROMPT >'
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+bindkey -v # viモードにする
+export KEYTIMEOUT=1 # 1msで戻る
 
 #--------------------------------------------------------
 #gitのブランチ名をプロンプトの右側に表示する
@@ -41,7 +87,7 @@ PROMPT='%F{green}%n%f %~ > '
 function rprompt-git-current-branch {
   local branch_name st branch_status
 
-  if [ ! -e  ".git" ]; then
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
     # gitで管理されていないディレクトリは何も返さない
     return
   fi
@@ -91,7 +137,36 @@ compinit
 #おまじない
 #--------------------------------------------------------
 #Must write on end of .zshrc
-tmux ls
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-alias python="python3"
+
+#--------------------------------------------------------
+# tmuxを起動させる
+#--------------------------------------------------------
+
+function tmux-sel () {
+    #if [[ ! -n $TMUX && $- == *l* ]]; then ログインシェルのみ
+    if [[ ! -n $TMUX ]]; then
+        # tmuxのセッションIDを取得
+        sessions=( $(tmux ls | cut -d':' -f1) )
+        if [[ -z "$sessions" ]]; then
+            tmux new-session
+        fi
+
+        menu_items=()
+        for session in "${sessions[@]}"; do
+            menu_items+=("$session" "$session")
+        done
+        # whiptailで選択ダイアログを表示
+        selected_session=$(whiptail --notags --title "Session Selector" --cancel-button "--no-tmux" --menu "Choose a tmux session:" 20 60 10 "${menu_items[@]}" "ns" "[Create new session]" 3>&1 1>&2 2>&3)
+        if [[ "$selected_session" = "ns" ]]; then
+            tmux new-session # 明示的に選択された時のみ起動
+        elif [[ -n "$selected_session" ]]; then
+            tmux a -t "$selected_session"
+        else
+            :  # Start terminal without tmux. 
+        fi
+    else
+        echo "Tmux Shell"
+    fi
+}
