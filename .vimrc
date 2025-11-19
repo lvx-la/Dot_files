@@ -17,7 +17,7 @@ set hidden
 set showcmd
 " --MODE-- の表示をオフにする
 set noshowmode
-"クリップボードを使う
+"クリップボードを使うよん
 set clipboard =unnamed,autoselect
 
 
