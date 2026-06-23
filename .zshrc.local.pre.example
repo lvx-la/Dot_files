@@ -1,0 +1,6 @@
+# ~/.zshrc.local.pre — マシン固有の先頭処理のテンプレート。
+# AutoInstall.sh が新規マシンで ~/.zshrc.local.pre が無ければコピーする。
+# 実体（~/.zshrc.local.pre）は非追跡（.gitignore 参照）。最上部で動かすものを置く。
+
+# kiro pre（kiro がインストールされたマシンのみ）
+# [[ -f "${HOME}/.local/share/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/zshrc.pre.zsh"

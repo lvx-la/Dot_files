@@ -1,0 +1,28 @@
+# ~/.zshrc.local — マシン固有の末尾処理のテンプレート。
+# AutoInstall.sh が新規マシンで ~/.zshrc.local が無ければコピーする。
+# 実体（~/.zshrc.local）は非追跡（.gitignore 参照）。不要な行は消してよい。
+#
+# 重要: syntax-highlighting は必ずこのファイルの最後に置く。
+# kiro post や safe-chain など ZLE ウィジェットを触る処理より後でないとハイライトが死ぬ。
+
+# 開発ツールの PATH
+# export PATH=$PATH:/usr/local/go/bin
+# export PATH=$PATH:~/.nodenv/bin
+# export FPATH=~/.nodenv/completions:"$FPATH"
+
+# 社内プロキシの CA バンドル
+# export REQUESTS_CA_BUNDLE=/path/to/ca.pem
+# export NODE_EXTRA_CA_CERTS=$REQUESTS_CA_BUNDLE
+# export SSL_CERT_FILE=$REQUESTS_CA_BUNDLE
+
+# safe-chain
+# [ -f "$HOME/.safe-chain/scripts/init-posix.sh" ] && source "$HOME/.safe-chain/scripts/init-posix.sh"
+
+# kiro post（kiro がインストールされたマシンのみ）
+# [[ -f "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh"
+
+# syntax-highlighting は必ず最後。パスは distro 依存（apt:/usr/share, brew:/usr/local/share）
+# for d in /usr/share /usr/local/share; do
+#   f="$d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+#   [ -f "$f" ] && source "$f" && break
+# done

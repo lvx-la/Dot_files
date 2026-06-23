@@ -1,16 +1,14 @@
+# マシン固有の先頭処理（非追跡）。kiro pre など最上部で動かすものを置く。
+[[ -f "${HOME}/.zshrc.local.pre" ]] && source "${HOME}/.zshrc.local.pre"
+
 #--------------------------------------------------------
 #Aliases
 #--------------------------------------------------------
-case ${USER} in
-  yu2ki)
-    # alias cat='lolcat'
-    alias tree='tree -NC'
-    alias ll='ls -lah'
-    alias :q='exit'
-    ;;
-  Knight-of-Skyrim)
-    alias tree='tree -NC'
-esac
+# alias cat='lolcat'
+alias tree='tree -NC'
+alias ll='ls -lah'
+alias :q='exit'
+alias t='terraform'
 
 
 #--------------------------------------------------------
@@ -130,17 +128,6 @@ autoload -U compinit
 compinit
 
 #--------------------------------------------------------
-#path to develop apps
-#--------------------------------------------------------
-
-#--------------------------------------------------------
-#おまじない
-#--------------------------------------------------------
-#Must write on end of .zshrc
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-
-#--------------------------------------------------------
 # tmuxを起動させる
 #--------------------------------------------------------
 
@@ -170,3 +157,7 @@ function tmux-sel () {
         echo "Tmux Shell"
     fi
 }
+
+# マシン固有の末尾処理（非追跡）。PATH・safe-chain・kiro post、最後に
+# syntax-highlighting（ウィジェットを触る他処理より後でないと死ぬ）を置く。
+[[ -f "${HOME}/.zshrc.local" ]] && source "${HOME}/.zshrc.local"

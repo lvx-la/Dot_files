@@ -42,6 +42,25 @@ fi
   ln -s $SCRIPT_DIR/.tmux.conf $HOME/.tmux.conf
   ln -s $SCRIPT_DIR/.zshrc $HOME/.zshrc
 
+  # Seed per-machine overrides from templates (never overwrite an existing one).
+  for f in .zshrc.local.pre .zshrc.local; do
+    if [ ! -f "$HOME/$f" ]; then
+      cp "$SCRIPT_DIR/$f.example" "$HOME/$f"
+      echo "Created ~/$f from template — edit it for this machine."
+    fi
+  done
+
+  echo "-------------------------------------------------"
+  echo "Linking Claude Code config (settings + scripts only; never credentials/state)"
+  mkdir -p "$HOME/.claude"
+  for f in settings.json statusline-command.sh tmux-window-state.sh; do
+    target="$HOME/.claude/$f"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      mv "$target" "$target.old"
+    fi
+    ln -sf "$SCRIPT_DIR/.claude/$f" "$target"
+  done
+
   echo "-------------------------------------------------"
   echo "Installation Completed, Ready to get to start shell life"
   ls -la $HOME

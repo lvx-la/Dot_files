@@ -2,3 +2,15 @@
 **/out
 .env
 mise.toml
+
+# Per-machine zsh overrides (only the .example templates are tracked)
+.zshrc.local
+.zshrc.local.pre
+
+# Claude Code: track ONLY the whitelisted config under .claude/.
+# Everything else (settings.local.json, credentials, logs, caches, project
+# state Claude auto-creates here) stays out, even if added by mistake.
+.claude/*
+!.claude/settings.json
+!.claude/statusline-command.sh
+!.claude/tmux-window-state.sh
