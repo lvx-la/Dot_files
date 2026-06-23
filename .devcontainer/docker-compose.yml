@@ -1,0 +1,30 @@
+# devContainer 用 compose。dev サービスに VS Code がアタッチする。
+# 追加ワークロード(n8n 等)は「別スタックのまま」運用し、共有 external network
+# 'dev-shared' に相互参加させることでコンテナ名アクセスできる。
+#   事前に一度だけ:  docker network create dev-shared
+services:
+  dev:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    # VS Code がアタッチし続けられるよう常駐させる
+    command: sleep infinity
+    volumes:
+      - ..:/workspaces/Dot_files:cached
+      # Claude Code の認証/設定を永続化。ホストの認証は一切入れず、コンテナ内で
+      # 一度 `claude` ログインすればリビルド後もこの Volume で保持される。
+      - claude-config:/home/vscode/.claude
+    networks:
+      - default
+      - shared
+
+volumes:
+  claude-config:
+
+networks:
+  # dev 専用のデフォルトネットワーク
+  default:
+  # ホスト側の別スタック(n8n 等)と共有する既存ネットワーク
+  shared:
+    external: true
+    name: dev-shared

@@ -1,0 +1,26 @@
+{
+  "name": "dotfiles-dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspaces/Dot_files",
+  // dev だけ起動。n8n 等は別スタックで立て、dev-shared 経由で繋ぐ。
+  "runServices": ["dev"],
+  // VS Code を閉じたら compose を停止
+  "shutdownAction": "stopCompose",
+  "remoteUser": "vscode",
+  // dotfile リンク(AutoInstall) → コンテナ用 .zshrc.local 配置
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      },
+      "extensions": [
+        "anthropic.claude-code",
+        "hashicorp.terraform",
+        "golang.go",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
