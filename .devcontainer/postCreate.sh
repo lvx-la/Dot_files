@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# devContainer 作成後の一度きりのセットアップ。
-# AutoInstall.sh は「dotfile の symlink」だけを行う（ツールは Dockerfile で導入済み）。
 set -euo pipefail
 
-WORKSPACE="$(cd "$(dirname "$0")/.." && pwd)"
-
 # dotfiles をリンク（.vimrc / .tmux.conf / .zshrc / .claude/*）
-bash "${WORKSPACE}/AutoInstall.sh"
+mkdir -p $HOME/Dot_files
+git clone https://github.com/lvx-la/Dot_files.git $HOME/Dot_files
+bash "${HOME}/Dot_files/AutoInstall.sh"
 
-# コンテナ用の ~/.zshrc.local（mise 有効化 + syntax-highlighting）で上書き。
-# AutoInstall がテンプレ(コメントのみ)を置くので、その後に差し替える。
-cp "${WORKSPACE}/.devcontainer/zshrc.local" "${HOME}/.zshrc.local"
+# sudo /usr/sbin/sshd
 
-echo "postCreate done. open a new zsh terminal to load mise & highlighting."
+echo "postCreate done."
